@@ -4,6 +4,10 @@ const api = axios.create({
   baseURL: process.env.REACT_APP_API_BASE_URL,
 });
 
+// In src/api.ts or src/App.tsx
+console.log('API Base URL:', process.env.REACT_APP_API_BASE_URL);
+
+
 
 // Add request interceptor to add token to all requests
 api.interceptors.request.use(
