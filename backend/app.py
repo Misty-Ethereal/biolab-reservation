@@ -102,32 +102,32 @@ def token_required(f):
     return decorated
 
 # Login route
-@app.route('/api/login', methods=['POST'])
-def login():
+
+
+    @app.route('/api/users', methods=['POST'])
+def create_user():
     data = request.get_json()
-    if not data or not data.get('email') or not data.get('password'):
-        return jsonify({'message': 'Missing email or password'}), 400
-    
-    user = User.query.filter_by(email=data['email']).first()
-    if not user or not check_password_hash(user.password, data['password']):
-        return jsonify({'message': 'Invalid email or password'}), 401
-    
-    token = jwt.encode({
-        'userID': user.userID,
-        'email': user.email,
-        'role': user.role,
-        'exp': datetime.utcnow() + timedelta(days=1)
-    }, app.config['SECRET_KEY'])
-    
-    return jsonify({
-        'token': token,
-        'user': {
-            'userID': user.userID,
-            'name': user.name,
-            'email': user.email,
-            'role': user.role
-        }
-    })
+    try:
+        if User.query.filter_by(email=data['email']).first():
+            return jsonify({'error': 'User with this email already exists'}), 400
+
+        hashed_password = generate_password_hash(data['password'])
+        user = User(
+            name=data['name'],
+            email=data['email'],
+            password=hashed_password,
+            role=data['role']
+        )
+
+        db.session.add(user)
+        db.session.commit()
+
+        return jsonify({'message': 'User created successfully', 'userID': user.userID}), 201
+    except Exception as e:
+        db.session.rollback()
+        print("Create user error:", e)
+        return jsonify({'error': 'Failed to create user', 'details': str(e)}), 500
+
 
 # API Routes
 
