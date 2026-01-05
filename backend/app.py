@@ -15,7 +15,7 @@ app.config['SECRET_KEY'] = 'your-secret-key-change-this'
 # Configure CORS
 CORS(app, resources={
     "/api/*": {
-        "origins": ["http://localhost:3000"],
+        "origins": ["https://biolab-reservation01.vercel.app"],
         "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
         "allow_headers": ["Content-Type", "Authorization"]
     }
