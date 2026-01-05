@@ -1,7 +1,10 @@
 import axios from 'axios';
 
+// Use environment variable if defined, otherwise fallback to localhost for dev
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
+
 const api = axios.create({
-  baseURL: 'http://localhost:5000/api',
+  baseURL: API_BASE_URL,
 });
 
 // Add request interceptor to add token to all requests
@@ -23,10 +26,8 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      // Clear token and user data
       localStorage.removeItem('token');
       localStorage.removeItem('user');
-      // Redirect to login page
       window.location.href = '/login';
     }
     return Promise.reject(error);
@@ -68,4 +69,4 @@ export const createUser = (data: {
 export const getUserNotifications = (userId: string) =>
   api.get(`/notifications/${userId}`);
 
-export default api; 
+export default api;
