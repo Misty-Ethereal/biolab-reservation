@@ -1,8 +1,11 @@
 import axios from 'axios';
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://biolab-reservation.onrender.com/api';
+
 const api = axios.create({
-  baseURL: 'http://localhost:5000/api',
+  baseURL: API_BASE_URL,
 });
+
 
 // Add request interceptor to add token to all requests
 api.interceptors.request.use(
