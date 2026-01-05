@@ -18,7 +18,7 @@ CORS(app, resources={
         "origins": ["http://localhost:3000",
                     "https://biolab-reservation02.vercel.app",
                     "https://biolab-reservation02-ljihl52b3-lea-michelle-campanas-projects.vercel.app/login",
-                    "https://biolab-reservation02-git-main-lea-michelle-campanas-projects.vercel.app/login],
+                    "https://biolab-reservation02-git-main-lea-michelle-campanas-projects.vercel.app/login"],
                     
         "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
         "allow_headers": ["Content-Type", "Authorization"]
